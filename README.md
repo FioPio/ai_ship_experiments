@@ -11,4 +11,4 @@ This project is free on copy and distribution as far as the proper credit is giv
 
 # Credits
 
-The main logic and implemention of the code have been inspired on the codes from `The coding train` (really interesting youtube channel) and a [great tutorial](https://realpython.com/pygame-a-primer/#basic-game-design) of `pygame` from `Jon Fincher`.
+The main logic and implemention of the code have been inspired on the codes from `The coding train` ([really interesting youtube channel](https://www.youtube.com/channel/UCvjgXvBlbQiydffZU7m1_aw)) and a [great tutorial](https://realpython.com/pygame-a-primer/#basic-game-design) of `pygame` from `Jon Fincher`.
