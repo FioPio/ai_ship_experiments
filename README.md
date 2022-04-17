@@ -1,7 +1,3 @@
-README
-
-${toc}
-
 # Description
 
 This repo contains the implementation of a small AI project in which several agents try to reach a gol. The fist attempt is going to be a genetic algorithm and maybe I will keep going with some more experimentation.
