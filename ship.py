@@ -28,7 +28,8 @@ __version__ = 'v1.0'
 __date__    = '16/04/2022'
 
 import pygame
-#from math import cos, sin
+from math import cos, sin
+from math import radians as rad
 
 # Parameters of the Ship
 D1 = 15   # Distance of the peak
@@ -64,18 +65,13 @@ class Ship:
         # Saves the data on the construction
         self.x = _x
         self.y = _y
-        # Making sure a valid color is indicated
-        if _c=='R' or _c == 'B' or _c=='G':
-            self.c = _c
-        else:
-            self.c = 'B'
         self.a = _a
+        self.setColor(_c)
+        self.alive = True
+        self.spd=0
+
         # Configures the sprit part
         super(Ship, self).__init__()
-        # Loads the image of the sprit
-        self.img = pygame.image.load(self.getSpritePath()).convert()
-        # Sets which color is set as transparent, in this case black
-        self.img.set_colorkey(( 0, 0, 0))
         # Updartes the object
         self.update()
 
@@ -83,15 +79,43 @@ class Ship:
         return "img/ship"+self.c+".png"
 
     def update(self):
-        # Sets the sprit in the right angle
-        self.sprite = pygame.transform.rotate(self.img, self.a)
-        # Computes the containing rectangle
-        self.rect = self.sprite.get_rect()
+        # If the ship is alive update it normally
+        if self.alive:
+            # Sets the sprit in the right angle
+            self.sprite = pygame.transform.rotate(self.img, self.a)
+            # Computes the containing rectangle
+            self.rect = self.sprite.get_rect()
 
-        #Computes the top left corner to refer the object
-        corx = self.x - int(self.rect[2]/2)
-        cory = self.y - int(self.rect[3]/2)
+            self.y -= int(self.spd * cos(rad(self.a)))
+            self.x -= int(self.spd * sin(rad(self.a)))
 
-        # And updates the rectangle
-        self.rect[0]=self.corx
-        self.rect[1]=self.cory
+            #Computes the top left corner to refer the object
+            corx = self.x - int(self.rect[2]/2)
+            cory = self.y - int(self.rect[3]/2)
+
+            # And updates the rectangle
+            self.rect[0]=corx
+            self.rect[1]=cory
+            
+        # If it is dead just show it in red as it died
+        else:
+            self.sprite = pygame.transform.rotate(self.img, self.fA)
+
+    def setColor(self,_c):
+        # Making sure a valid color is indicated
+        if _c=='R' or _c == 'B' or _c=='G':
+            self.c = _c
+        else:
+            self.c = 'B'
+        # Loads the image of the sprit
+        self.img = pygame.image.load(self.getSpritePath()).convert()
+        # Sets which color is set as transparent, in this case black
+        self.img.set_colorkey(( 0, 0, 0))
+
+    # Kills the ship
+    def kill(self):
+        if self.alive:
+            # Sets alive to false to indicate it has dead
+            self.alive=False
+            self.fA = self.a  # Copies the angle in which it dead
+            self.setColor('R') # Changes the color of the ship to red
