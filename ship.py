@@ -27,7 +27,8 @@ __author__  = 'Ferriol Pey Comas [ferriol73pey@gmail.com]'
 __version__ = 'v1.0'
 __date__    = '16/04/2022'
 
-from math import cos, sin
+import pygame
+#from math import cos, sin
 
 # Parameters of the Ship
 D1 = 15   # Distance of the peak
@@ -51,54 +52,42 @@ class Ship:
     _y :  float
        The y of the center of the Ship.
 
-    _a :  float
-       The angle holding the rotation of the Ship.
+    _c :  char (Optional)
+       The color of the ship, may be 'B' for blue,
+       'R' for red and 'G' for green. Default is 'B'.
+
+    _a :  float (Optional)
+       The angle holding the rotation of the Ship in
+       degrees. Default is 0.
     '''
-    def __init__( self, _x, _y, _a=0 ):
+    def __init__( self, _x, _y, _c='B', _a=0 ):
         # Saves the data on the construction
         self.x = _x
         self.y = _y
+        # Making sure a valid color is indicated
+        if _c=='R' or _c == 'B' or _c=='G':
+            self.c = _c
+        else:
+            self.c = 'B'
         self.a = _a
+        # Configures the sprit part
+        super(Ship, self).__init__()
+        # Loads the image of the sprit
+        self.img = pygame.image.load(self.getSpritePath()).convert()
+        # Sets which color is set as transparent, in this case black
+        self.img.set_colorkey(( 0, 0, 0))
+        # Updartes the object
+        self.update()
 
-    def getPoints( self ):
-        '''
+    def getSpritePath(self):
+        return "img/ship"+self.c+".png"
 
-        Computes the four points that define the shape
-        of the ship.
+    def update(self):
+        # Sets the sprit in the right angle
+        self.sprite = pygame.transform.rotate(self.img, self.a)
+        # Computes the containing rectangle
+        self.rect = self.sprite.get_rect()
 
-        =======
-	RETURNS
-	=======
-
-        points : array of points (array of ints)
-           A vector containing the four points that define the shape
-           of the body as following: [ P1, P2, P3, P4 ] being each
-           point as Px = (x, y).
-
-        '''
-
-        # Computing point p1
-        x1 = D1 * sin( self.a )
-        y1 = D1 * cos( self.a )
-
-        P1 = (int(self.x + x1), int(self.y + y1))
-
-        # Computing point p2
-        x2 = D2 * sin( self.a + Awing )
-        y2 = D2 * cos( self.a + Awing )
-
-        P2 = (int(self.x + x2), int(self.y + y2))
-
-        # Computing point p3
-        x3 = D3 * sin( self.a )
-        y3 = D3 * cos( self.a )
-
-        P3 = (int(self.x - x3),int(self.y - y3))
-
-        # Computing point p4
-        x4 = D2 * sin( self.a - Awing )
-        y4 = D2 * cos( self.a - Awing )
-
-        P4 = (int(self.x + x4),int(self.y + y4))
-
-        return [ P1, P2, P3, P4 ]
+        #Computes the top left corner to refer the object
+        self.corx = self.x - int(self.rect[2]/2)
+        self.cory = self.y - int(self.rect[3]/2)

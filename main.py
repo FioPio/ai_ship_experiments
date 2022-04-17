@@ -54,8 +54,12 @@ ship=Ship(int(SCREEN_WIDTH/2),int(SCREEN_HEIGHT/2))
 sColor = (0, 255, 125)
 
 # Function to draw the ship s in the screen
-def drawCar(s):
-    pygame.draw.polygon(screen, sColor, s.getPoints())
+def drawShip(s):
+    # Update the ship data
+    s.update()
+    # Draw the ship on the screen
+    screen.blit(s.sprite, (s.corx, s.cory))
+
 
 '''
 # Get the set of keys pressed and check for user input
@@ -75,7 +79,7 @@ while running:
             if event.key == K_ESCAPE:
                 running = False
             if event.key == K_UP:
-                ship.a+=0.1
+                ship.a+=5
             if event.key == K_DOWN:
                 ship.x+=5
                 ship.y+=10
@@ -86,8 +90,9 @@ while running:
     # Fill the background with white
     screen.fill((255, 255, 255))
     # Draw a solid blue circle in the center
-    drawCar(ship)
-    # Flip the display
+    drawShip(ship)
+
+    # Flip the display (Shows the updates)
     pygame.display.flip()
 
     # Ensure program maintains a rate of 30 frames per second
