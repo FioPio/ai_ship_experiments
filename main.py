@@ -58,7 +58,7 @@ def drawShip(s):
     # Update the ship data
     s.update()
     # Draw the ship on the screen
-    screen.blit(s.sprite, (s.corx, s.cory))
+    screen.blit(s.sprite,s.rect)# (s.corx, s.cory))
 
 
 '''

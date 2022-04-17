@@ -89,5 +89,9 @@ class Ship:
         self.rect = self.sprite.get_rect()
 
         #Computes the top left corner to refer the object
-        self.corx = self.x - int(self.rect[2]/2)
-        self.cory = self.y - int(self.rect[3]/2)
+        corx = self.x - int(self.rect[2]/2)
+        cory = self.y - int(self.rect[3]/2)
+
+        # And updates the rectangle
+        self.rect[0]=self.corx
+        self.rect[1]=self.cory
