@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 '''
-           car.py
+           ship.py
 
-This file has the the implementation of the class Car.
+This file has the the implementation of the class Ship.
 
                    P1
                    ^
@@ -29,7 +29,7 @@ __date__    = '16/04/2022'
 
 from math import cos, sin
 
-# Parameters of the car
+# Parameters of the Ship
 D1 = 15   # Distance of the peak
 D2 = 11   # Distance to the wings
 D3 =  3   # Distance of the tail
@@ -38,7 +38,7 @@ Awing = 2.094 # Angle of the wings, aprox 120º
 
 
 
-class Car:
+class Ship:
     '''
     This class holds
     ==========
@@ -46,13 +46,13 @@ class Car:
     ==========
 
     _x :  float
-       The x of the center of the car.
+       The x of the center of the Ship.
 
     _y :  float
-       The y of the center of the car.
+       The y of the center of the Ship.
 
     _a :  float
-       The angle holding the rotation of the car.
+       The angle holding the rotation of the Ship.
     '''
     def __init__( self, _x, _y, _a=0 ):
         # Saves the data on the construction
@@ -64,7 +64,7 @@ class Car:
         '''
 
         Computes the four points that define the shape
-        of the car.
+        of the ship.
 
         =======
 	RETURNS

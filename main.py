@@ -8,7 +8,7 @@ import pygame
 pygame.init()
 
 # Imports the custom class car
-from car import Car
+from ship import Ship
 
 # Import pygame.locals for easier access to key coordinates
 # Updated to conform to flake8 and black standards
@@ -35,19 +35,15 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 
-# creates a Car object and locates it at the center of the screen
-car=Car(int(SCREEN_WIDTH/2),int(SCREEN_HEIGHT/2))
+# creates a Ship object and locates it at the center of the screen
+ship=Ship(int(SCREEN_WIDTH/2),int(SCREEN_HEIGHT/2))
 
-#Color of the car in the RGB format
-cColor = (0, 255, 125)
+#Color of the ship in the RGB format
+sColor = (0, 255, 125)
 
-# Radious of the car representation
-cR = 15
-
-# Function to draw the car c in the screen
-def drawCar(c):
-    #pygame.draw.circle(screen, cColor, (c.x,c.y), cR)
-    pygame.draw.polygon(screen, cColor, c.getPoints())
+# Function to draw the ship s in the screen
+def drawCar(s):
+    pygame.draw.polygon(screen, sColor, s.getPoints())
 
 '''
 # Get the set of keys pressed and check for user input
@@ -67,10 +63,10 @@ while running:
             if event.key == K_ESCAPE:
                 running = False
             if event.key == K_UP:
-                car.a+=0.1
+                ship.a+=0.1
             if event.key == K_DOWN:
-                car.x+=5
-                car.y+=10
+                ship.x+=5
+                ship.y+=10
 
         if event.type == pygame.QUIT:
             running = False
@@ -78,8 +74,7 @@ while running:
     # Fill the background with white
     screen.fill((255, 255, 255))
     # Draw a solid blue circle in the center
-    drawCar(car)
-    # pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
+    drawCar(ship)
     # Flip the display
     pygame.display.flip()
 
