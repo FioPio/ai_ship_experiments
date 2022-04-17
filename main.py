@@ -1,6 +1,18 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+'''
+           main.py
+
+This file contains the main implementation for the testing world
+in which this experiment is going to run.
+'''
+__author__  = 'Ferriol Pey Comas [ferriol73pey@gmail.com]'
+__version__ = 'v1.0'
+__date__    = '17/04/2022'
+
 # Using code from: https://realpython.com/pygame-a-primer/#basic-game-design
+
+
 
 # Simple pygame program
 # Import and initialize the pygame library
