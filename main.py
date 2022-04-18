@@ -45,6 +45,12 @@ SCREEN_HEIGHT = 800
 
 clock = pygame.time.Clock()
 
+# To write on the screen
+pygame.font.init() # you have to call this at the start,
+                   # if you want to use this module.
+my_font = pygame.font.SysFont('Comic Sans MS', 30)
+
+
 # Create the screen object
 # The size is determined by the constant SCREEN_WIDTH and SCREEN_HEIGHT
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -66,22 +72,36 @@ def drawShip(s):
             if limit.colliderect(s.rect):
                 s.kill()
                 break
+        if goal.contains(s.rect):
+            s.succeeded()
     # Update the ship data
     s.update()
     # Draw the ship on the screen
     screen.blit(s.sprite,s.rect)# (s.corx, s.cory))
 
 
-'''
-# Get the set of keys pressed and check for user input
-pressed_keys = pygame.key.get_pressed()
-if pressed_keys[K_UP]:
-    self.rect.move_ip(0, -5)
-'''
+def printInfo(s):
+    # Computes the distance
+    d = int(s.distance(goal.center))
+    # Score is the difference between the close it is to the goal
+    # and the traveled distance
+    score = 2 * (1215 - d) - s.distTrav
+    aliveShips = 0
+    if s.alive:
+        aliveShips+=1
+    # Creates the text
+    distance_text = my_font.render('{:04d} Distance'.format(d), False, (0, 0, 0))
+    score_text    = my_font.render('{:04d} Score'.format(score), False, (0, 0, 0))
+    alive_text    = my_font.render('{:04d} Alive ships'.format(aliveShips), False, (0, 0, 0))
+    # Adds it to the screen
+    screen.blit(distance_text, (783,32))
+    screen.blit(score_text, (783, 64))
+    screen.blit(alive_text, (783, 96))
 
-limits=[]
+
 
 # Defining the wall limits
+limits=[]
 rect1 = pygame.Rect(0,0,16,177)
 limits.append(rect1)
 
@@ -106,7 +126,11 @@ limits.append(rect7)
 rect8 = pygame.Rect(623, 784, 577, 16 )
 limits.append(rect8)
 
+# Defines the goal rectangle
 goal = pygame.Rect(1023, 639, 162, 144 )
+
+# A textbox to write on it
+textBox = pygame.Rect(767, 16, 416, 224 )
 
 # Run until the user asks to quit
 running = True
@@ -142,6 +166,11 @@ while running:
 
     # Draw a solid blue circle in the center
     drawShip(ship)
+
+    # Adds the information box
+    pygame.draw.rect(screen,( 220, 220, 220), textBox)
+
+    printInfo(ship)
 
     # Flip the display (Shows the updates)
     pygame.display.flip()

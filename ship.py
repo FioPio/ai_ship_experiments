@@ -28,7 +28,7 @@ __version__ = 'v1.0'
 __date__    = '16/04/2022'
 
 import pygame
-from math import cos, sin
+from math import cos, sin, sqrt
 from math import radians as rad
 
 # Parameters of the Ship
@@ -68,7 +68,13 @@ class Ship:
         self.a = _a
         self.setColor(_c)
         self.alive = True
-        self.spd=0
+        self.succeed = False
+        self.spd=0 # Speed
+
+        self.distTrav = 0 # distance traveled
+
+
+
 
         # Configures the sprit part
         super(Ship, self).__init__()
@@ -80,7 +86,7 @@ class Ship:
 
     def update(self):
         # If the ship is alive update it normally
-        if self.alive:
+        if self.alive and not self.succeed:
             # Sets the sprit in the right angle
             self.sprite = pygame.transform.rotate(self.img, self.a)
             # Computes the containing rectangle
@@ -89,6 +95,8 @@ class Ship:
             self.y -= int(self.spd * cos(rad(self.a)))
             self.x -= int(self.spd * sin(rad(self.a)))
 
+            self.distTrav+=abs(self.spd)
+
             #Computes the top left corner to refer the object
             corx = self.x - int(self.rect[2]/2)
             cory = self.y - int(self.rect[3]/2)
@@ -96,14 +104,16 @@ class Ship:
             # And updates the rectangle
             self.rect[0]=corx
             self.rect[1]=cory
-            
+        elif self.succeed:
+            self.sprite = pygame.transform.rotate(self.img, self.fA)
+
         # If it is dead just show it in red as it died
         else:
             self.sprite = pygame.transform.rotate(self.img, self.fA)
 
     def setColor(self,_c):
         # Making sure a valid color is indicated
-        if _c=='R' or _c == 'B' or _c=='G':
+        if _c=='R' or _c == 'B' or _c=='G' or _c=='O':
             self.c = _c
         else:
             self.c = 'B'
@@ -119,3 +129,15 @@ class Ship:
             self.alive=False
             self.fA = self.a  # Copies the angle in which it dead
             self.setColor('R') # Changes the color of the ship to red
+    def succeeded(self):
+        if self.alive and not self.succeed:
+            # Sets alive to false to indicate it has dead
+            self.succeed=True
+            self.fA = self.a  # Copies the angle in which it dead
+            self.setColor('O') # Changes the color of the ship to red
+
+    def distance(self,p):
+        dify = self.y - p[1]
+        difx = self.x - p[0]
+
+        return sqrt(( difx * difx) + ( dify * dify ))
