@@ -30,7 +30,7 @@ __date__    = '18/04/2022'
 import pygame
 from math import cos, sin, sqrt
 from math import radians as rad
-
+from copy import deepcopy
 
 # Parameters of the Ship
 D1 = 15   # Distance of the peak
@@ -71,6 +71,7 @@ class Ship:
         self.alive = True
         self.succeed = False
         self.spd=0 # Speed
+        self.initialized = False
 
         self.distTrav = 0 # distance traveled
 
@@ -89,9 +90,15 @@ class Ship:
         # If the ship is alive update it normally
         if self.alive and not self.succeed:
             # Sets the sprit in the right angle
+            if self.initialized:
+                cent = deepcopy(self.rect.center)
             self.sprite = pygame.transform.rotate(self.img, self.a)
             # Computes the containing rectangle
             self.rect = self.sprite.get_rect()
+            if self.initialized:
+                self.rect.center=cent
+            else:
+                self.initialized=True
 
             self.y -= int(self.spd * cos(rad(self.a)))
             self.x -= int(self.spd * sin(rad(self.a)))
@@ -142,3 +149,6 @@ class Ship:
         difx = self.x - p[0]
 
         return sqrt(( difx * difx) + ( dify * dify ))
+
+    def copy(self):
+        return deepcopy(self)

@@ -18,13 +18,21 @@ from ship import Ship
 
 class GShip(Ship):
     def __init__( self, _x, _y, _c='B', _a=0 ):
-        # Initializes the object as its parent
-        Ship.__init__( _x, _y, _c, _a )
         # Adds the map
-        self.spdMap = np.random.randint(-5, 5, size=(1200, 800, 2))
+        self.spdMap = np.random.randint(-10, 10, size=(1200, 800, 2))
+        # Initializes the object as its parent
+        super().__init__( _x, _y, _c, _a )
 
     def update(self):
-        if s.alive and not s.succeed:
+        # Adds the proper control data
+        if self.alive and not self.succeed:
             self.spd = self.spdMap[self.x-1][self.y-1][0]
             self.a += self.spdMap[self.x-1][self.y-1][1]
-        Ship.update()
+        super().update()
+
+    def computeScore(self, g):
+        if self.alive and not self.succeed:
+            d = int(self.distance(g))
+            # Score is the difference between the close it is to the goal
+            # and the traveled distance
+            self.score = 2 * (1215 - d) - self.distTrav
