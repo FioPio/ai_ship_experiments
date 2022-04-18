@@ -25,11 +25,12 @@ The distances are defined as following:
 '''
 __author__  = 'Ferriol Pey Comas [ferriol73pey@gmail.com]'
 __version__ = 'v1.0'
-__date__    = '16/04/2022'
+__date__    = '18/04/2022'
 
 import pygame
 from math import cos, sin, sqrt
 from math import radians as rad
+
 
 # Parameters of the Ship
 D1 = 15   # Distance of the peak
